@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load guardian_tags %}
+<div>
+{% get_obj_perms request.user for object as "permission" %}
+    <table class="table table-bordered table-sm">
+    <tr>
+		<td>Created By</td>
+		<td>{{ object.created_by }}</td>
+    </tr>
+    <tr>
+		<td>Modified By</td>
+		<td>{{ object.modified_by }}</td>
+    </tr>
+    <tr>
+		<td>Created On</td>
+		<td>{{ object.created_on }}</td>
+    </tr>
+    <tr>
+		<td>Modified On</td>
+		<td>{{ object.modified_on }}</td>
+    </tr>
+    <tr>
+       <td>Purpose</td>
+       <td>{{ object.purpose }}</td>
+    </tr>
+    <tr>
+       <td>Amount</td>
+       <td>{{ object.amount }}</td>
+    </tr>
+    </table>
+
+	<form method="POST">
+	{% csrf_token %}
+	    <label for="fname">Comment:</label>
+	    <textarea id="comment" rows="4" cols="50" name="comment"></textarea><br>
+	   {% if 'can_check' in permission %}
+		<button type="submit" name="check" value="ok">OK</button>
+		<button type="submit" name="return" value="return">Return</button>
+	   {% endif %}
+	   {% if 'can_approve' in permission %}
+		<button type="submit" name="approve" value="ok">approve</button>
+		<button type="submit" name="reject" value="reject">Reject</button>
+		{% endif %}
+    </form>
+</div> 
+{% endblock %}

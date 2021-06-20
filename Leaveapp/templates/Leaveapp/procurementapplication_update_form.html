@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<form method="POST" enctype="multipart/form-data">{% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" name="save" value="save">
+    <div>
+	<h1>Comments</h1>
+	{% for item in comment %}
+    <p>{{item.created_by}} - {{item.modified_on}}</p>
+    <p>{{item.comment}}</p>
+    {% endfor %}
+    </div>
+</form>
+{% endblock %}
